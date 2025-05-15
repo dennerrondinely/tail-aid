@@ -1,0 +1,14 @@
+# Ignore node_modules and build cache
+node_modules
+*.tsbuildinfo
+
+# Ignore test and config files
+src/**/*.test.*
+.vscode/
+.git/
+.gitignore
+README.md
+LICENSE
+
+# Do NOT ignore dist/extension.js or dist/**
+# (remove any line that ignores dist/ or dist/extension.js) 
