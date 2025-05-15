@@ -12,6 +12,11 @@ Tail-Aid is a powerful VS Code extension designed to enhance your Tailwind CSS d
 - **Real-time Suggestions**: Get instant feedback and suggestions as you type, helping you write better Tailwind CSS code.
 - **Customizable Categories**: Easily customize the categories and colors to suit your preferences.
 
+## Screenshots
+
+![Screenshot 1](media/screenshot-1.png)
+![Screenshot 2](media/screenshot-2.png)
+
 ## Installation
 
 1. Open VS Code.
