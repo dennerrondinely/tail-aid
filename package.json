@@ -10,7 +10,13 @@
     "Other"
   ],
   "icon": "media/icon.png",
-  "activationEvents": ["*"],
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact",
+    "onLanguage:html"
+  ],
     "main": "./dist/extension.js",
     "contributes": {
       "views": {
