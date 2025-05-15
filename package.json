@@ -1,0 +1,50 @@
+{
+    "name": "tailaid",
+    "displayName": "TailAid",
+    "description": "Destaque, explore e brinque com classes do Tailwind CSS diretamente no VS Code.",
+    "version": "0.0.1",
+    "engines": {
+      "vscode": "^1.80.0"
+    },
+  "categories": [
+    "Other",
+    "Themes"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:html",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
+    "main": "./dist/extension.js",
+    "contributes": {
+      "views": {
+        "explorer": [
+          {
+            "id": "tailwindClassExplorer",
+            "name": "Tailwind Classes"
+          }
+        ]
+      },
+      "commands": [
+        {
+          "command": "tailwindHighlighter.insertClass",
+          "title": "Inserir classe Tailwind"
+        }
+      ]
+    },
+    "scripts": {
+    "vscode:prepublish": "tsc -p ./ && cp ./src/tailwindClassList.json ./dist/tailwindClassList.json",
+    "compile": "tsc -p ./ && cp ./src/tailwindClassList.json ./dist/tailwindClassList.json",
+      "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+    "@types/node": "^22.15.18",
+      "@types/vscode": "^1.80.0",
+      "typescript": "^5.2.0",
+    "vscode": "^1.1.37"
+    },
+    "dependencies": {
+      "tailwindcss": "^3.4.0"
+    }
+  }
