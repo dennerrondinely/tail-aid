@@ -1,22 +1,11 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
-import resolveConfig from 'tailwindcss/resolveConfig';
 import { ClassTreeProvider } from './ClassTreeProvider';
 import { loadTailwindData } from './tailwindUtils';
 import { highlightTailwindClasses } from './highlightTailwindClasses';
 
 export function activate(context: vscode.ExtensionContext) {
-  const workspace = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
-  const configPath = path.join(workspace || '', 'tailwind.config.js');
 
   let tailwindConfig: any = {};
-  try {
-    const userConfig = require(configPath);
-    tailwindConfig = resolveConfig(userConfig);
-  } catch (e) {
-    console.warn('tailwind.config.js não encontrado.');
-  }
 
   const tailwindData = loadTailwindData(tailwindConfig);
 

@@ -1,11 +1,12 @@
 {
-    "name": "tail-aid",
-    "displayName": "TailAid",
-    "description": "A powerful VS Code extension to enhance your Tailwind CSS development experience with intelligent syntax highlighting and real-time suggestions.",
-    "version": "0.0.2",
-    "engines": {
-      "vscode": "^1.85.0"
-    },
+  "name": "tail-aid",
+  "displayName": "TailAid",
+  "description": "A powerful VS Code extension to enhance your Tailwind CSS development experience with intelligent syntax highlighting and real-time suggestions.",
+  "version": "0.0.3",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
   "categories": [
     "Other"
   ],
@@ -17,60 +18,49 @@
     "onLanguage:typescriptreact",
     "onLanguage:html"
   ],
-    "main": "./dist/extension.js",
-    "contributes": {
-      "views": {
-        "explorer": [
-          {
-            "id": "tailwindClassExplorer",
-            "name": "Tailwind Classes"
-          }
-        ]
-      },
-      "commands": [
-        {
-          "command": "tail-aid.helloWorld",
-          "title": "Hello World"
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "TailAid Configuration",
+      "properties": {
+        "tailwindcss.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable TailAid"
         }
-      ]
-    },
-    "scripts": {
+      }
+    }
+  },
+  "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-      "watch": "tsc -watch -p ./",
-      "pretest": "npm run compile && npm run lint",
-      "lint": "eslint src --ext ts",
-      "test": "node ./out/test/runTest.js"
-    },
-    "devDependencies": {
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
     "@types/vscode": "^1.85.0",
-      "@types/glob": "^8.1.0",
-      "@types/mocha": "^10.0.6",
-      "@types/node": "20.x",
-      "@typescript-eslint/eslint-plugin": "^6.15.0",
-      "@typescript-eslint/parser": "^6.15.0",
-      "eslint": "^8.56.0",
-      "glob": "^10.3.10",
-      "mocha": "^10.2.0",
-      "typescript": "^5.3.3",
-      "@vscode/test-electron": "^2.3.8",
-      "tailwindcss": "^3.4.1"
-    },
-    "keywords": [
-      "tailwind",
-      "css",
-      "syntax highlighting",
-      "vscode extension"
-    ],
-    "author": "Your Name",
-    "license": "MIT",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/dennerrondinely/tail-aid.git"
-    },
-    "bugs": {
-      "url": "https://github.com/dennerrondinely/tail-aid/issues"
-    },
-    "homepage": "https://github.com/dennerrondinely/tail-aid#readme",
-    "publisher": "Denner"
-  }
+    "tailwindcss": "^4.1.7",
+    "typescript": "^5.3.3",
+    "vsce": "^2.15.0"
+  },
+  "keywords": [
+    "tailwind",
+    "css",
+    "syntax highlighting",
+    "vscode extension"
+  ],
+  "author": "Denner Rondinely",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dennerrondinely/tail-aid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dennerrondinely/tail-aid/issues"
+  },
+  "homepage": "https://github.com/dennerrondinely/tail-aid#readme",
+  "publisher": "Denner"
+}

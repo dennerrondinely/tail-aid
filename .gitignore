@@ -24,3 +24,6 @@ Thumbs.db
 # Others
 *.log
 *.tsbuildinfo 
+
+# VSIX
+*.vsix
