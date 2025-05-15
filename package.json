@@ -64,5 +64,6 @@
     "bugs": {
       "url": "https://github.com/dennerrondinely/tail-aid/issues"
     },
-    "homepage": "https://github.com/dennerrondinely/tail-aid#readme"
+    "homepage": "https://github.com/dennerrondinely/tail-aid#readme",
+    "publisher": "Denner"
   }
