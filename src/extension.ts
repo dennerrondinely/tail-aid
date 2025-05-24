@@ -35,7 +35,47 @@ export function activate(context: vscode.ExtensionContext) {
     }
   });
 
-  context.subscriptions.push(hoverProvider, insertCmd);
+  const sortCmd = vscode.commands.registerCommand('tailaid.sortTailwindClassesByCategory', async () => {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+      vscode.window.showInformationMessage('No active editor');
+      return;
+    }
+    const document = editor.document;
+    const regEx = /class(Name)?\s*=\s*(?:"([^"]+)"|'([^']+)'|`([^`]+)`|\{`([^`}]+)`\}|\{['"]([^'"]+)["']\})/g;
+    const text = document.getText();
+    let edit = new vscode.WorkspaceEdit();
+    let match;
+    while ((match = regEx.exec(text))) {
+      const classes = match[2] || match[3] || match[4] || match[5] || match[6];
+      if (!classes) continue;
+      const classList = classes.split(/\s+/).filter(Boolean);
+      // Agrupar por categoria
+      const grouped: Record<string, string[]> = {};
+      for (const cls of classList) {
+        const cat = require('./getCategoryByPrefix').getCategoryByPrefix(cls);
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(cls);
+      }
+      // Ordem das categorias
+      const categoryOrder = [
+        'Layout', 'Spacing', 'Sizing', 'Typography', 'Color', 'Border', 'Effect', 'Animation', 'Transform', 'Interactivity', 'Accessibility', 'Default'
+      ];
+      // Ordenar e juntar
+      const sorted = categoryOrder.flatMap(cat => grouped[cat] || []);
+      const sortedClasses = sorted.join(' ');
+      // Substituir no texto
+      const start = match.index + match[0].indexOf(classes);
+      const end = start + classes.length;
+      const startPos = document.positionAt(start);
+      const endPos = document.positionAt(end);
+      edit.replace(document.uri, new vscode.Range(startPos, endPos), sortedClasses);
+    }
+    await vscode.workspace.applyEdit(edit);
+    vscode.window.showInformationMessage('Tailwind classes sorted by category!');
+  });
+
+  context.subscriptions.push(hoverProvider, insertCmd, sortCmd);
 
   // Aplica highlight ao abrir/trocar de editor
   vscode.window.onDidChangeActiveTextEditor(editor => {

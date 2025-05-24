@@ -1,8 +1,8 @@
 {
   "name": "tail-aid",
   "displayName": "TailAid",
-  "description": "A powerful VS Code extension to enhance your Tailwind CSS development experience with intelligent syntax highlighting and real-time suggestions.",
-  "version": "0.0.3",
+  "description": "A powerful VS Code extension to enhance your Tailwind CSS development experience with intelligent syntax highlighting, class organization, and hover information.",
+  "version": "0.1.0",
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
@@ -20,6 +20,26 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "tailwindHighlighter.insertClass",
+        "title": "TailAid: Insert Tailwind Class",
+        "category": "TailAid"
+      },
+      {
+        "command": "tailaid.sortTailwindClassesByCategory",
+        "title": "TailAid: Sort Tailwind Classes by Category",
+        "category": "TailAid"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "tailaid.sortTailwindClassesByCategory",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t",
+        "when": "editorTextFocus && (editorLangId == 'html' || editorLangId == 'javascript' || editorLangId == 'typescript' || editorLangId == 'javascriptreact' || editorLangId == 'typescriptreact')"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "TailAid Configuration",
