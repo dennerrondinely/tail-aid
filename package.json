@@ -30,6 +30,11 @@
         "command": "tailaid.sortTailwindClassesByCategory",
         "title": "TailAid: Sort Tailwind Classes by Category",
         "category": "TailAid"
+      },
+      {
+        "command": "tailaid.initConfig",
+        "title": "TailAid: Create Config File (tailaid.config.json)",
+        "category": "TailAid"
       }
     ],
     "keybindings": [

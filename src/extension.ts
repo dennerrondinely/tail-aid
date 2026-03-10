@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 import { ClassTreeProvider } from './ClassTreeProvider';
 import { loadTailwindData } from './tailwindUtils';
-import { highlightTailwindClasses } from './highlightTailwindClasses';
+import { highlightTailwindClasses, disposeUserDecorations } from './highlightTailwindClasses';
+import { createDefaultConfig, getConfigFilePath, USER_CONFIG_FILENAME } from './userConfig';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -75,7 +76,33 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage('Tailwind classes sorted by category!');
   });
 
-  context.subscriptions.push(hoverProvider, insertCmd, sortCmd);
+  // ─── Command: generate tailaid.config.json ────────────────────
+  const initConfigCmd = vscode.commands.registerCommand('tailaid.initConfig', async () => {
+    const configPath = createDefaultConfig();
+    if (!configPath) {
+      vscode.window.showWarningMessage('TailAid: No workspace folder found. Open a project first.');
+      return;
+    }
+    const doc = await vscode.workspace.openTextDocument(configPath);
+    await vscode.window.showTextDocument(doc);
+    vscode.window.showInformationMessage(`TailAid: tailaid.config.json created at the project root!`);
+  });
+
+  context.subscriptions.push(hoverProvider, insertCmd, sortCmd, initConfigCmd);
+
+  // ─── Watch tailaid.config.json for changes ───────────────────
+  const configWatcher = vscode.workspace.createFileSystemWatcher(`**/${USER_CONFIG_FILENAME}`);
+  const reloadHighlights = () => {
+    disposeUserDecorations();
+    const editor = vscode.window.activeTextEditor;
+    if (editor && isRelevantDocument(editor.document)) {
+      highlightTailwindClasses(editor);
+    }
+  };
+  configWatcher.onDidChange(reloadHighlights);
+  configWatcher.onDidCreate(reloadHighlights);
+  configWatcher.onDidDelete(reloadHighlights);
+  context.subscriptions.push(configWatcher);
 
   // Aplica highlight ao abrir/trocar de editor
   vscode.window.onDidChangeActiveTextEditor(editor => {
