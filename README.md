@@ -1,6 +1,6 @@
 # Tail-Aid
 
-![Tail-Aid Logo](media/logo.png)
+![Tail-Aid Logo](media/logo.jpg)
 
 ## Overview
 

@@ -14,7 +14,8 @@ export function getCategoryByPrefix(cls: string): string {
   const userConfig = loadUserConfig();
   if (userConfig) {
     for (const entry of userConfig.customClasses) {
-      const prefixes = Array.isArray(entry.prefix) ? entry.prefix : [entry.prefix];
+      const prefixes = (Array.isArray(entry.prefix) ? entry.prefix : [entry.prefix])
+        .filter(p => typeof p === 'string' && p.trim().length > 0); // ignore empty/blank prefixes
       if (prefixes.some(p => baseClass.startsWith(p))) {
         return entry.category;
       }

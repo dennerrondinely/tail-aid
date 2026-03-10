@@ -72,6 +72,14 @@ export function loadUserConfig(): UserConfig | null {
       console.warn("[TailAid] tailaid.config.json is missing `customClasses` array.");
       return null;
     }
+    // Warn about empty prefixes but don't reject the whole config
+    parsed.customClasses.forEach((entry, i) => {
+      const prefixes = Array.isArray(entry.prefix) ? entry.prefix : [entry.prefix];
+      const empty = prefixes.filter(p => typeof p !== 'string' || p.trim().length === 0);
+      if (empty.length > 0) {
+        console.warn(`[TailAid] customClasses[${i}] has ${empty.length} empty/invalid prefix(es) — they will be ignored.`);
+      }
+    });
     return parsed;
   } catch (e) {
     console.warn("[TailAid] Failed to parse tailaid.config.json:", e);
