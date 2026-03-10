@@ -2,7 +2,7 @@
   "name": "tail-aid",
   "displayName": "TailAid",
   "description": "A powerful VS Code extension to enhance your Tailwind CSS development experience with intelligent syntax highlighting, class organization, and hover information.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
@@ -58,14 +58,15 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "pnpm compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "pretest": "pnpm compile && pnpm lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "changeset": "changeset",
     "version": "changeset version",
+    "package": "vsce package",
     "publish": "vsce publish"
   },
   "devDependencies": {
@@ -74,7 +75,7 @@
     "@types/vscode": "^1.85.0",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.3.3",
-    "vsce": "^2.15.0"
+    "@vscode/vsce": "^3.0.0"
   },
   "keywords": [
     "tailwind",
