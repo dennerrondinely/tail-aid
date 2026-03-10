@@ -19,6 +19,8 @@ export function highlightTailwindClasses(editor: vscode.TextEditor) {
       Transform: [],
       Interactivity: [],
       Accessibility: [],
+      SVG: [],
+      Table: [],
       Default: []
     };
     let match;

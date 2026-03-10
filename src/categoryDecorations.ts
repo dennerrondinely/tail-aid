@@ -56,6 +56,16 @@ export const categoryDecorations: Record<string, vscode.TextEditorDecorationType
     color: "#71717a", // cinza médio
     borderRadius: "2px",
   }),
+  SVG: vscode.window.createTextEditorDecorationType({
+    backgroundColor: "rgba(187,247,208,0.12)", // verde esmeralda suave
+    color: "#16a34a", // verde esmeralda
+    borderRadius: "2px",
+  }),
+  Table: vscode.window.createTextEditorDecorationType({
+    backgroundColor: "rgba(253,186,116,0.12)", // âmbar claro
+    color: "#d97706", // âmbar escuro
+    borderRadius: "2px",
+  }),
   Default: vscode.window.createTextEditorDecorationType({
     backgroundColor: "rgba(226,232,240,0.10)", // cinza leve
     color: "#64748b", // cinza elegante

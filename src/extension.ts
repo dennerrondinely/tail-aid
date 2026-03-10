@@ -59,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
       // Ordem das categorias
       const categoryOrder = [
-        'Layout', 'Spacing', 'Sizing', 'Typography', 'Color', 'Border', 'Effect', 'Animation', 'Transform', 'Interactivity', 'Accessibility', 'Default'
+        'Layout', 'Sizing', 'Spacing', 'Typography', 'Color', 'Border', 'Effect', 'Animation', 'Transform', 'Interactivity', 'SVG', 'Table', 'Accessibility', 'Default'
       ];
       // Ordenar e juntar
       const sorted = categoryOrder.flatMap(cat => grouped[cat] || []);
