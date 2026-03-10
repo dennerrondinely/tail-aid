@@ -1,81 +1,138 @@
-# Tail-Aid
+# TailAid
 
-![Tail-Aid Logo](media/logo.jpg)
+<p align="center">
+  <img src="media/logo.png" alt="TailAid Logo" width="180" />
+</p>
 
-## Overview
+<p align="center">
+  <strong>Smarter Tailwind CSS development inside VS Code.</strong><br/>
+  Color-coded class highlighting, one-click sorting, a class explorer, and full support for custom classes.
+</p>
 
-Tail-Aid is a powerful VS Code extension designed to enhance your Tailwind CSS development experience. It provides intelligent syntax highlighting, class categorization, and organization tools to streamline your workflow.
+<p align="center">
+  <img src="media/screenshot-1.png" alt="TailAid highlighting in action" width="700" />
+</p>
+
+---
 
 ## Features
 
-- **Intelligent Syntax Highlighting**: Automatically categorizes Tailwind CSS classes by their prefixes, making your code more readable and maintainable.
-- **Smart Class Organization**: Sort your Tailwind classes by category with a single command or keyboard shortcut.
-- **Class Explorer**: Browse and insert Tailwind classes through a convenient tree view, organized by categories.
-- **Hover Information**: Get instant information about Tailwind classes by hovering over them in your code.
+### 🎨 Color-coded Syntax Highlighting
 
-## Usage
+Every Tailwind class is instantly highlighted with a distinct color based on its category — making large `className` strings scannable at a glance.
 
-### Syntax Highlighting
-Tail-Aid automatically highlights Tailwind CSS classes in your code, using different colors for different categories:
-- Layout (teal)
-- Spacing (green)
-- Typography (yellow)
-- Colors (blue)
-- Borders (purple)
-- Effects (pink)
-- And more...
+| Category | Color |
+|---|---|
+| Layout | Sky blue |
+| Spacing | Emerald green |
+| Sizing | Purple |
+| Typography | Yellow |
+| Color / Background | Blue |
+| Border | Violet |
+| Effect | Pink |
+| Animation | Orange |
+| Transform | Teal |
+| Interactivity | Red |
+| SVG | Green |
+| Table | Amber |
+| Accessibility | Gray |
 
-### Sorting Classes
-You can organize your Tailwind classes by category in two ways:
-1. Using the Command Palette (Ctrl/Cmd + Shift + P):
-   - Type "TailAid: Sort Tailwind Classes by Category"
-2. Using the keyboard shortcut:
-   - Windows/Linux: `Ctrl + Shift + T`
-   - macOS: `Cmd + Shift + T`
+Variants like `hover:`, `focus:`, `md:`, `dark:lg:` are fully supported — the base class is always correctly identified.
 
-The classes will be automatically sorted following this order:
-1. Layout
-2. Spacing
-3. Sizing
-4. Typography
-5. Colors
-6. Borders
-7. Effects
-8. Animation
-9. Transform
-10. Interactivity
-11. Accessibility
+---
 
-### Class Explorer
-Access the Tailwind Class Explorer through the VS Code sidebar to:
-- Browse classes by category
-- View class descriptions
-- Insert classes with a single click
+### ↕️ Sort Classes by Category
 
-### Hover Information
-Hover over any Tailwind class in your code to see:
-- Class description
-- Visual preview (when available)
-- Category information
+Instantly reorganize the classes inside any `class` or `className` attribute into a consistent, readable order.
+
+**Via Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`):
+```
+TailAid: Sort Tailwind Classes by Category
+```
+
+**Via keyboard shortcut:**
+
+| OS | Shortcut |
+|---|---|
+| Windows / Linux | `Ctrl + Shift + T` |
+| macOS | `Cmd + Shift + T` |
+
+Classes are sorted in this canonical order:
+
+`Layout` → `Sizing` → `Spacing` → `Typography` → `Color` → `Border` → `Effect` → `Animation` → `Transform` → `Interactivity` → `SVG` → `Table` → `Accessibility`
+
+---
+
+### 🗂️ Class Explorer
+
+Browse all known Tailwind classes organized by category in the VS Code sidebar. Click any class to insert it directly into your code.
+
+---
+
+### 🔍 Hover Information
+
+Hover over any Tailwind class to see its category and description without leaving your editor.
+
+---
+
+### ⚙️ Custom Classes via `tailaid.config.json`
+
+Define your own project-specific classes with custom categories and highlight colors.
+
+**Generate the config file via Command Palette:**
+```
+TailAid: Create Config File (tailaid.config.json)
+```
+
+This creates a `tailaid.config.json` at your project root:
+
+```json
+{
+  "customClasses": [
+    {
+      "prefix": ["btn-", "card"],
+      "category": "Components",
+      "color": "#a78bfa",
+      "backgroundColor": "rgba(167,139,250,0.12)"
+    },
+    {
+      "prefix": ["brand-"],
+      "category": "Brand",
+      "color": "#fb923c",
+      "backgroundColor": "rgba(251,146,60,0.10)"
+    }
+  ]
+}
+```
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `prefix` | `string \| string[]` | ✅ | One or more class prefixes/names to match |
+| `category` | `string` | ✅ | Category label used for highlighting and sorting |
+| `color` | `string` | ✅ | Text highlight color (any CSS color value) |
+| `backgroundColor` | `string` | ❌ | Background tint (any CSS color value) |
+
+> **Hot-reload:** The extension watches `tailaid.config.json` for changes and re-applies highlights instantly — no restart required.
+
+> **Priority:** Custom classes always take precedence over built-in Tailwind categories.
+
+---
 
 ## Installation
 
-1. Open VS Code.
-2. Go to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or by pressing `Ctrl+Shift+X`.
-3. Search for "Tail-Aid".
-4. Click on the Install button.
+1. Open VS Code
+2. Go to the Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+3. Search for **TailAid**
+4. Click **Install**
 
-## Configuration
+**Supported languages:** `html`, `javascript`, `typescript`, `javascriptreact`, `typescriptreact`
 
-You can customize Tail-Aid's behavior through VS Code settings:
-- Enable/disable the extension
-- Customize category colors
-- Modify category order for sorting
+---
 
 ## Contributing
 
-We welcome contributions! Please feel free to submit a Pull Request.
+Contributions are welcome! Check out [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+MIT — see [LICENSE](LICENSE.md) for details.

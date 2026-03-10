@@ -6,13 +6,13 @@ export class ClassTreeProvider implements vscode.TreeDataProvider<ClassItem> {
   getChildren(element?: ClassItem): vscode.ProviderResult<ClassItem[]> {
     if (!element) {
       const categories = [...new Set(Object.values(this.data).map(item => item.category))];
-      return categories.map(c => new ClassItem(c || 'Sem categoria', vscode.TreeItemCollapsibleState.Collapsed));
+      return categories.map(c => new ClassItem(c || 'Uncategorized', vscode.TreeItemCollapsibleState.Collapsed));
     } else {
       return Object.entries(this.data)
         .filter(([_, val]) => val.category === element.label)
         .map(([cls, val]) => new ClassItem(cls, vscode.TreeItemCollapsibleState.None, {
           command: 'tailwindHighlighter.insertClass',
-          title: 'Inserir Classe',
+          title: 'Insert Class',
           arguments: [cls]
         }, val.description || '', val.preview || ''));
     }

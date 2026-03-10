@@ -3,14 +3,18 @@ import { categoryDecorations } from './categoryDecorations';
 import { getCategoryByPrefix } from './getCategoryByPrefix';
 import { loadUserConfig, UserCustomClass } from './userConfig';
 
-/** Cache of dynamically created decorations for user custom categories */
+/** Cache of dynamically created TextEditorDecorationTypes for user-defined custom categories. */
 const userDecorationCache = new Map<string, vscode.TextEditorDecorationType>();
 
+/**
+ * Returns a cached (or newly created) TextEditorDecorationType for the given
+ * custom class entry. The cache key is derived from the category, colors and
+ * prefixes so that different entries always get independent decoration types.
+ */
 function getUserDecoration(entry: UserCustomClass): vscode.TextEditorDecorationType {
   const prefixKey = Array.isArray(entry.prefix) ? entry.prefix.join(',') : entry.prefix;
   const key = `${entry.category}::${entry.color}::${entry.backgroundColor ?? ''}::${prefixKey}`;
   if (!userDecorationCache.has(key)) {
-    const bg = entry.backgroundColor ?? `${entry.color.replace(/^#/, '')}22`;
     userDecorationCache.set(key, vscode.window.createTextEditorDecorationType({
       backgroundColor: entry.backgroundColor ?? `rgba(167,139,250,0.10)`,
       color: entry.color,
@@ -31,7 +35,7 @@ export function highlightTailwindClasses(editor: vscode.TextEditor) {
     const regEx = /class(Name)?\s*=\s*(?:"([^"]+)"|'([^']+)'|`([^`]+)`|\{`([^`}]+)`\}|\{['"]([^'"}]+)['"]\})/g;
     const text = editor.document.getText();
 
-    // Built-in category decorations
+    // Clear all built-in category decorations before re-computing
     Object.values(categoryDecorations).forEach(dec => editor.setDecorations(dec, []));
 
     const decorationsByCategory: Record<string, vscode.DecorationOptions[]> = {
@@ -51,13 +55,13 @@ export function highlightTailwindClasses(editor: vscode.TextEditor) {
       Default: []
     };
 
-    // User custom categories
+    // Load user config and prepare buckets for each custom category
     const userConfig = loadUserConfig();
     const userDecorationsByCategory = new Map<string, vscode.DecorationOptions[]>();
     if (userConfig) {
-      // Clear previous user decorations from editor
+      // Clear any previously applied user decorations from the editor
       userDecorationCache.forEach(dec => editor.setDecorations(dec, []));
-      // Prepare buckets for each unique user category
+      // Create an empty range bucket for every unique custom category
       const seenCategories = new Set(userConfig.customClasses.map(e => e.category));
       seenCategories.forEach(cat => userDecorationsByCategory.set(cat, []));
     }
@@ -84,12 +88,12 @@ export function highlightTailwindClasses(editor: vscode.TextEditor) {
       }
     }
 
-    // Apply built-in decorations
+    // Apply built-in category decorations
     Object.entries(decorationsByCategory).forEach(([cat, decs]) => {
       editor.setDecorations(categoryDecorations[cat], decs);
     });
 
-    // Apply user custom decorations
+    // Apply user-defined custom category decorations
     if (userConfig) {
       userDecorationsByCategory.forEach((decs, category) => {
         const entry = userConfig.customClasses.find(e => e.category === category);

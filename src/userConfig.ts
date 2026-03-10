@@ -30,13 +30,13 @@ const DEFAULT_CONFIG: UserConfig = {
 };
 
 /**
- * Finds the workspace root by looking for common project markers.
+ * Resolves the root directory of the currently open VS Code workspace.
  */
 function findWorkspaceRoot(): string | undefined {
   const workspaceFolders = (() => {
     try {
-      // Dynamic import to avoid circular dependency issues
-      const vscode = require("vscode");
+      // Lazy require to avoid a circular dependency at module load time
+      const vscode = require('vscode');
       return vscode.workspace.workspaceFolders as { uri: { fsPath: string } }[] | undefined;
     } catch {
       return undefined;
@@ -50,7 +50,8 @@ function findWorkspaceRoot(): string | undefined {
 }
 
 /**
- * Returns the full path to the config file in the current workspace root.
+ * Returns the absolute path to the config file in the current workspace root,
+ * or undefined if no workspace is open.
  */
 export function getConfigFilePath(): string | undefined {
   const root = findWorkspaceRoot();
@@ -59,7 +60,8 @@ export function getConfigFilePath(): string | undefined {
 }
 
 /**
- * Loads and parses the user config file. Returns null if not found or invalid.
+ * Reads and parses the tailaid.config.json from the workspace root.
+ * Returns null if the file does not exist, cannot be read, or has an invalid shape.
  */
 export function loadUserConfig(): UserConfig | null {
   const configPath = getConfigFilePath();
@@ -69,10 +71,10 @@ export function loadUserConfig(): UserConfig | null {
     const raw = fs.readFileSync(configPath, "utf-8");
     const parsed = JSON.parse(raw) as UserConfig;
     if (!Array.isArray(parsed.customClasses)) {
-      console.warn("[TailAid] tailaid.config.json is missing `customClasses` array.");
+      console.warn('[TailAid] tailaid.config.json is missing the `customClasses` array.');
       return null;
     }
-    // Warn about empty prefixes but don't reject the whole config
+    // Warn about empty prefixes but keep the rest of the config intact
     parsed.customClasses.forEach((entry, i) => {
       const prefixes = Array.isArray(entry.prefix) ? entry.prefix : [entry.prefix];
       const empty = prefixes.filter(p => typeof p !== 'string' || p.trim().length === 0);
@@ -82,14 +84,15 @@ export function loadUserConfig(): UserConfig | null {
     });
     return parsed;
   } catch (e) {
-    console.warn("[TailAid] Failed to parse tailaid.config.json:", e);
+    console.warn('[TailAid] Failed to parse tailaid.config.json:', e);
     return null;
   }
 }
 
 /**
- * Creates a default tailaid.config.json in the workspace root.
- * Returns the path of the created file.
+ * Creates a tailaid.config.json with default content at the workspace root.
+ * Does nothing if the file already exists.
+ * Returns the path of the config file, or undefined if no workspace is open.
  */
 export function createDefaultConfig(): string | undefined {
   const configPath = getConfigFilePath();

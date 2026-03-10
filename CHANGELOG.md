@@ -8,11 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Command to sort Tailwind classes by category
-- Keyboard shortcut (Ctrl/Cmd + Shift + T) for sorting classes
-- Class Explorer tree view for browsing and inserting classes
-- Hover information for Tailwind classes
-- Syntax highlighting for different Tailwind categories
+- Expanded category coverage: `prefixCategoryMap` and `tailwindClassList.json` now cover all Tailwind CSS utility groups (12 → 257 entries)
+- New **SVG** category (`fill-`, `stroke-`) and **Table** category (`table-`, `border-collapse`, `border-separate`, `caption-`) with dedicated highlight colors
+- Custom config support via `tailaid.config.json` at the workspace root — users can define classes with custom `prefix`, `category`, `color`, and optional `backgroundColor`
+- New command `tailaid.initConfig` to scaffold a default `tailaid.config.json` in the workspace
+- Array prefix support in custom config: `prefix` accepts a `string | string[]` value (e.g. `"prefix": ["btn-", "card"]`)
+- Variant prefix stripping — responsive, state, and dark-mode variants (e.g. `hover:`, `md:`, `dark:lg:`) are now correctly resolved to their base class before category matching
+- `FileSystemWatcher` on `tailaid.config.json`: highlights hot-reload on config create, change, or delete
+- `disposeUserDecorations()` export to clean up dynamically-created user decoration types on config reload
+
+### Changed
+- Highlight colors updated to pastel Tailwind `*-300` tones optimised for dark themes (e.g. `#93c5fd` for Color, `#6ee7b7` for Spacing)
+- All source comments, JSDoc, and UI strings translated from Portuguese to English
+- `ClassTreeProvider`: uncategorised label changed from `'Sem categoria'` to `'Uncategorized'`; insert command title changed from `'Inserir Classe'` to `'Insert Class'`
+- README completely rewritten with feature sections, highlight-color reference table, custom config schema table, and keyboard shortcut reference
+
+### Fixed
+- Empty string prefix (`""`) in custom config would match every class, silently shadowing all built-in categories — now filtered out with a warning
+- Duplicate map keys for `fill-` and `stroke-` between the Color and SVG sections resolved (kept only under SVG)
 
 ## [0.1.0] - 2024-03-19
 

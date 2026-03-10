@@ -2,7 +2,7 @@
   "name": "tail-aid",
   "displayName": "TailAid",
   "description": "A powerful VS Code extension to enhance your Tailwind CSS development experience with intelligent syntax highlighting, class organization, and hover information.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"

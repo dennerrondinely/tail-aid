@@ -51,21 +51,21 @@ export function activate(context: vscode.ExtensionContext) {
       const classes = match[2] || match[3] || match[4] || match[5] || match[6];
       if (!classes) continue;
       const classList = classes.split(/\s+/).filter(Boolean);
-      // Agrupar por categoria
+      // Group classes by category
       const grouped: Record<string, string[]> = {};
       for (const cls of classList) {
         const cat = require('./getCategoryByPrefix').getCategoryByPrefix(cls);
         if (!grouped[cat]) grouped[cat] = [];
         grouped[cat].push(cls);
       }
-      // Ordem das categorias
+      // Canonical category order
       const categoryOrder = [
         'Layout', 'Sizing', 'Spacing', 'Typography', 'Color', 'Border', 'Effect', 'Animation', 'Transform', 'Interactivity', 'SVG', 'Table', 'Accessibility', 'Default'
       ];
-      // Ordenar e juntar
+      // Sort and join
       const sorted = categoryOrder.flatMap(cat => grouped[cat] || []);
       const sortedClasses = sorted.join(' ');
-      // Substituir no texto
+      // Replace the original class string in the document
       const start = match.index + match[0].indexOf(classes);
       const end = start + classes.length;
       const startPos = document.positionAt(start);
@@ -104,18 +104,18 @@ export function activate(context: vscode.ExtensionContext) {
   configWatcher.onDidDelete(reloadHighlights);
   context.subscriptions.push(configWatcher);
 
-  // Aplica highlight ao abrir/trocar de editor
+  // Apply highlights when switching to a different editor
   vscode.window.onDidChangeActiveTextEditor(editor => {
     if (editor && isRelevantDocument(editor.document)) highlightTailwindClasses(editor);
   });
-  // Aplica highlight ao editar o texto
+  // Re-apply highlights on every document change
   vscode.workspace.onDidChangeTextDocument(event => {
     const editor = vscode.window.activeTextEditor;
     if (editor && event.document === editor.document && isRelevantDocument(editor.document)) {
       highlightTailwindClasses(editor);
     }
   });
-  // Aplica highlight ao ativar extensão
+  // Apply highlights immediately on extension activation
   if (vscode.window.activeTextEditor && isRelevantDocument(vscode.window.activeTextEditor.document)) {
     highlightTailwindClasses(vscode.window.activeTextEditor);
   }
